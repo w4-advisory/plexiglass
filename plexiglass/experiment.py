@@ -1,3 +1,4 @@
+from importlib.resources import files
 from .model import Model
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
@@ -16,7 +17,7 @@ def _load_templates() -> dict:
     Returns:
         dict: Available prompt templates.
     """
-    with open('./plexiglass/config/templates.json') as f:
+    with files("plexiglass").joinpath("config/templates.json").open() as f:
         return json.load(f)
 
 class Experiment:

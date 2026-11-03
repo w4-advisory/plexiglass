@@ -42,12 +42,15 @@ def evaluate(prompt: str, metrics: list = ["toxicity", "pii"]) -> dict:
     Returns:
         dict: Dictionary containing results of evaluation.
     """
+    unknown = set(metrics) - {"toxicity", "pii", "pii_detection"}
+    if unknown:
+        raise ValueError(f"Unsupported metrics: {sorted(unknown)}")
     results = {}
     for metric in metrics:
         if metric == "toxicity":
             toxicity = evaluate_toxcity(prompt)
             results.update(toxicity)
-        elif metric == "pii":
+        elif metric in {"pii", "pii_detection"}:
             pii = evaluate_pii(prompt)
             results.update({"pii_detected": pii})
     return results

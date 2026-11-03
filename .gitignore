@@ -155,3 +155,7 @@ dmypy.json
 cython_debug/
 
 test.py
+
+# Local evaluation evidence can contain sensitive application responses.
+evaluation-runs/
+/build/

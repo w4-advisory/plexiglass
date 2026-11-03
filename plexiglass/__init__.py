@@ -1,4 +1,4 @@
-import os
+"""Plexiglass security evaluation SDK (no optional ML imports)."""
+from importlib.resources import files
 
-with open(os.path.join(os.path.dirname(__file__), "version")) as f:
-    __version__ = f.read().strip()
+__version__ = files(__package__).joinpath("version").read_text().strip()
