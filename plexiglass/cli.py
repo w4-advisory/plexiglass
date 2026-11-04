@@ -1,3 +1,4 @@
+from importlib.resources import files
 import typer
 from .experiment import Experiment
 from .core.scanner import Scanner, load_dataset_config
@@ -15,7 +16,7 @@ def _load_options() -> dict:
     Returns:
         dict: Available model options.
     """
-    with open('./plexiglass/config/options.json') as f:
+    with files("plexiglass").joinpath("config/options.json").open() as f:
         options_json = json.load(f)
         return options_json
 

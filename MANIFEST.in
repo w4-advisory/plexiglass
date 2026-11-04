@@ -1,0 +1,3 @@
+include AUDIT.md Makefile verify-python-version.sh
+recursive-include examples *.py *.jsonl
+recursive-include tests *.py

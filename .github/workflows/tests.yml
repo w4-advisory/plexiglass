@@ -1,0 +1,25 @@
+name: Evaluation tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install build
+      - run: python -m unittest discover -s tests -v
+      - run: python -m build
+      - run: python -m venv /tmp/plx-smoke
+      - run: /tmp/plx-smoke/bin/pip install dist/*.whl
+      - name: Installed CLI and resources work outside checkout
+        working-directory: /tmp
+        run: |
+          /tmp/plx-smoke/bin/plx --help
+          /tmp/plx-smoke/bin/python -c 'from importlib.resources import files; import json; json.loads(files("plexiglass").joinpath("config/datasets.json").read_text()); import plexiglass; print(plexiglass.__version__)'

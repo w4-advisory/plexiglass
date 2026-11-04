@@ -1,3 +1,4 @@
+from importlib.resources import files
 from datasets import load_dataset
 from ..model import Model
 from .evaluate import evaluate
@@ -14,7 +15,7 @@ def load_dataset_config() -> dict:
     Returns:
         dict: Available dataset configurations.
     """
-    with open('./plexiglass/config/datasets.json') as f:
+    with files("plexiglass").joinpath("config/datasets.json").open() as f:
         return json.load(f)
 
 
@@ -103,14 +104,15 @@ class Scanner:
                 scores = evaluate(response, metrics=self.metrics)
 
                 result = {
-                    "prompt": prompt[:200] + "..." if len(prompt) > 200 else prompt,
-                    "response": response[:200] + "..." if len(response) > 200 else response,
+                    "prompt": prompt,
+                    "response": response,
+                    "error": False,
                     **scores
                 }
                 results.append(result)
             except Exception as e:
                 results.append({
-                    "prompt": prompt[:200] + "..." if len(prompt) > 200 else prompt,
+                    "prompt": prompt,
                     "response": f"ERROR: {str(e)}",
                     "error": True
                 })
@@ -129,7 +131,7 @@ class Scanner:
 
         summary = {
             "total_prompts": len(self.results),
-            "successful_responses": len(self.results[~self.results.get("error", False).fillna(False)]),
+            "successful_responses": int((~self.results["error"].fillna(False)).sum()),
         }
 
         if "toxicity" in self.results.columns:
