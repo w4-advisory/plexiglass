@@ -30,7 +30,7 @@ legacy = [
     "inquirerpy",
     "datasets",
     "tqdm",
-    "langchain<0.2",
+    "langchain<1.5",
     "pandas",
     "typing_extensions",
     "langchain-community<0.1"
