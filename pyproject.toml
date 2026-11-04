@@ -21,7 +21,7 @@ requires-python = ">=3.10"
 
 [project.optional-dependencies]
 legacy = [
-    "torch >= 1.7.0",
+    "torch >= 2.14.1",
     "litellm",
     "detoxify",
     "transformers",
