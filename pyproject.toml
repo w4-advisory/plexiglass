@@ -33,7 +33,7 @@ legacy = [
     "langchain<0.2",
     "pandas",
     "typing_extensions",
-    "langchain-community<0.1"
+    "langchain-community<0.5"
 ]
 
 [project.urls]
